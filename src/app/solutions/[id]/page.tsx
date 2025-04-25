@@ -4,6 +4,7 @@ import React from "react";
 import {useParams} from "next/navigation";
 import {Card, CardContent, CardHeader, CardTitle, CardDescription} from "@/components/ui/card";
 import {Badge} from "@/components/ui/badge";
+import Link from "next/link";
 
 interface Solution {
   id: number;
@@ -63,6 +64,12 @@ const SolutionDetailPage: React.FC = () => {
 
   return (
     <div className="container mx-auto p-4">
+      <div className="mb-4">
+        <Link href="/" className="text-primary hover:underline">
+          Home
+        </Link>
+        <span> / {solution.name}</span>
+      </div>
       <Card className="bg-card shadow-md rounded-lg overflow-hidden">
         <CardHeader>
           <CardTitle className="text-2xl font-semibold">{solution.name}</CardTitle>
