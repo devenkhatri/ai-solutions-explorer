@@ -17,7 +17,7 @@ const SolutionDetailPage = () => {
     return <div>Solution not found</div>;
   }
     
-    const DynamicSolutionComponent = lazy(() => import(`@/components/solutions/${solution.component}`));
+  const DynamicSolutionComponent = lazy(() => import(`@/components/solutions/${solution.component}`));
 
 
   return (
