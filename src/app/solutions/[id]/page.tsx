@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, {Suspense} from "react";
 import {useParams} from "next/navigation";
 import {Card, CardContent, CardHeader, CardTitle, CardDescription} from "@/components/ui/card";
 import {Badge} from "@/components/ui/badge";
@@ -12,6 +12,7 @@ interface Solution {
   name: string;
   description: string;
   tags: string[];
+  component: string;
 }
 
 const SolutionDetailPage: React.FC = () => {
@@ -23,6 +24,10 @@ const SolutionDetailPage: React.FC = () => {
   if (!solution) {
     return <div>Solution not found</div>;
   }
+
+  const DynamicSolutionComponent = React.useMemo(() => {
+    return React.lazy(() => import(solution.component));
+  }, [solution.component]);
 
   return (
     <div className="container mx-auto p-4">
@@ -43,6 +48,11 @@ const SolutionDetailPage: React.FC = () => {
               {tag}
             </Badge>
           ))}
+        </CardContent>
+        <CardContent>
+          <Suspense fallback={<div>Loading solution...</div>}>
+            <DynamicSolutionComponent />
+          </Suspense>
         </CardContent>
       </Card>
     </div>

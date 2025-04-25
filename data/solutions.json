@@ -3,48 +3,56 @@
     "id": 1,
     "name": "AI-Powered Automation",
     "description": "Automate repetitive tasks using AI for increased efficiency.",
-    "tags": ["Chat", "Basic"]
+    "tags": ["Chat", "Basic"],
+    "component": "@/components/solutions/AIPoweredAutomation"
   },
   {
     "id": 2,
     "name": "Cloud Migration Services",
     "description": "Migrate your infrastructure to the cloud for scalability and cost savings.",
-    "tags": ["Image", "Basic"]
+    "tags": ["Image", "Basic"],
+    "component": "@/components/solutions/CloudMigrationServices"
   },
   {
     "id": 3,
     "name": "Data Analytics Dashboard",
     "description": "Visualize your data with an interactive dashboard for better insights.",
-    "tags": ["Vision", "Basic"]
+    "tags": ["Vision", "Basic"],
+    "component": "@/components/solutions/DataAnalyticsDashboard"
   },
   {
     "id": 4,
     "name": "Cybersecurity Solutions",
     "description": "Protect your business from cyber threats with our advanced security solutions.",
-    "tags": ["Audio", "Basic"]
+    "tags": ["Audio", "Basic"],
+    "component": "@/components/solutions/CybersecuritySolutions"
   },
   {
     "id": 5,
     "name": "Mobile App Development",
     "description": "Develop native mobile apps for iOS and Android platforms.",
-    "tags": ["Language", "Basic"]
+    "tags": ["Language", "Basic"],
+    "component": "@/components/solutions/MobileAppDevelopment"
   },
   {
     "id": 6,
     "name": "DevOps Consulting",
     "description": "Improve your software delivery pipeline with our DevOps consulting services.",
-    "tags": ["Code", "Basic"]
+    "tags": ["Code", "Basic"],
+    "component": "@/components/solutions/DevOpsConsulting"
   },
   {
     "id": 7,
     "name": "IoT Solutions",
     "description": "Connect and manage your devices with our end-to-end IoT solutions.",
-    "tags": ["Embeddings", "Basic"]
+    "tags": ["Embeddings", "Basic"],
+    "component": "@/components/solutions/IoTSolutions"
   },
   {
     "id": 8,
     "name": "Software Testing Services",
     "description": "Ensure quality and reliability with our comprehensive software testing services.",
-    "tags": ["Rerank", "Basic"]
+    "tags": ["Rerank", "Basic"],
+    "component": "@/components/solutions/SoftwareTestingServices"
   }
 ]
