@@ -37,7 +37,7 @@ const SolutionCard: React.FC<{solution: Solution}> = ({solution}) => {
 
 export default function Home() {
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedTag, setSelectedTag] = useState<string | null>(null);
+  const [selectedTags, setSelectedTags] = useState<string[]>(["All"]);
   const [filteredSolutions, setFilteredSolutions] = useState<Solution[]>(solutionsData);
 
   useEffect(() => {
@@ -51,18 +51,31 @@ export default function Home() {
       );
     }
 
-    if (selectedTag) {
-      results = results.filter((solution) => solution.tags.includes(selectedTag));
+    if (!selectedTags.includes("All")) {
+      results = results.filter((solution) =>
+        selectedTags.some((tag) => solution.tags.includes(tag))
+      );
     }
 
     setFilteredSolutions(results);
-  }, [searchTerm, selectedTag]);
+  }, [searchTerm, selectedTags]);
 
   const handleTagClick = (tag: string) => {
-    setSelectedTag((prevTag) => (prevTag === tag ? null : tag));
+    setSelectedTags((prevTags) => {
+      if (tag === "All") {
+        return ["All"];
+      } else {
+        if (prevTags.includes(tag)) {
+          const newTags = prevTags.filter((t) => t !== tag && t !== "All");
+          return newTags.length === 0 ? ["All"] : newTags;
+        } else {
+          return prevTags[0] === "All" ? [tag] : [...prevTags, tag];
+        }
+      }
+    });
   };
 
-  const allTags = [...new Set(solutionsData.flatMap((solution) => solution.tags))];
+  const allTags = ["All", ...new Set(solutionsData.flatMap((solution) => solution.tags))];
 
   return (
     <div className="container mx-auto p-4">
@@ -76,7 +89,7 @@ export default function Home() {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <div className="absolute left-3.5 top-2.5 text-muted-foreground">
+        <div className="absolute left-3 top-2.5 text-muted-foreground">
           <Search className="h-5 w-5"/>
         </div>
       </div>
@@ -86,7 +99,7 @@ export default function Home() {
           <button
             key={tag}
             className={`rounded-full px-4 py-2 text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 ${
-              selectedTag === tag
+              selectedTags.includes(tag)
                 ? "bg-primary text-primary-foreground"
                 : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
             }`}
