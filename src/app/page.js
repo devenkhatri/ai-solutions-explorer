@@ -108,7 +108,7 @@ export default function Home() {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
         <div className="absolute left-3.5 top-2.5 text-muted-foreground">
-          <Search className="h-5 w-5" />
+          <Search className="h-5 w-5"/>
         </div>
       </div>
 
