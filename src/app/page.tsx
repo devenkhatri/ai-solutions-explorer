@@ -6,7 +6,7 @@ import {Input} from "@/components/ui/input";
 import {Badge} from "@/components/ui/badge";
 import {Search} from "lucide-react";
 import Link from "next/link";
-import solutionsData from '../../data/solutions.json';
+import solutionsData from './data/solutions.json';
 
 interface Solution {
   id: number;
