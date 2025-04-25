@@ -5,6 +5,7 @@ import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/compo
 import {Input} from "@/components/ui/input";
 import {Badge} from "@/components/ui/badge";
 import {Search} from "lucide-react";
+import Link from "next/link";
 
 interface Solution {
   id: number;
@@ -56,7 +57,9 @@ const SolutionCard: React.FC<{solution: Solution}> = ({solution}) => {
   return (
     <Card className="bg-card shadow-md rounded-lg overflow-hidden">
       <CardHeader>
-        <CardTitle className="text-lg font-semibold">{solution.name}</CardTitle>
+        <CardTitle className="text-lg font-semibold">
+          <Link href={`/solutions/${solution.id}`}>{solution.name}</Link>
+        </CardTitle>
         <CardDescription className="text-sm text-muted-foreground">{solution.description}</CardDescription>
       </CardHeader>
       <CardContent className="flex flex-wrap gap-2">
@@ -103,7 +106,7 @@ export default function Home() {
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Solution Explorer</h1>
 
-      <div className="mb-4 flex items-center space-x-2">
+      <div className="mb-4 flex items-center space-x-2 relative">
         <Input
           type="text"
           placeholder="Search solutions..."
