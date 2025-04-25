@@ -6,6 +6,7 @@ import {Input} from "@/components/ui/input";
 import {Badge} from "@/components/ui/badge";
 import {Search} from "lucide-react";
 import Link from "next/link";
+import solutionsData from '../../data/solutions.json';
 
 interface Solution {
   id: number;
@@ -13,45 +14,6 @@ interface Solution {
   description: string;
   tags: string[];
 }
-
-const mockSolutions: Solution[] = [
-  {
-    id: 1,
-    name: "AI-Powered Automation",
-    description: "Automate repetitive tasks using AI for increased efficiency.",
-    tags: ["AI", "Automation", "Efficiency"],
-  },
-  {
-    id: 2,
-    name: "Cloud Migration Services",
-    description: "Migrate your infrastructure to the cloud for scalability and cost savings.",
-    tags: ["Cloud", "Migration", "Scalability"],
-  },
-  {
-    id: 3,
-    name: "Data Analytics Dashboard",
-    description: "Visualize your data with an interactive dashboard for better insights.",
-    tags: ["Data Analytics", "Dashboard", "Insights"],
-  },
-  {
-    id: 4,
-    name: "Cybersecurity Solutions",
-    description: "Protect your business from cyber threats with our advanced security solutions.",
-    tags: ["Cybersecurity", "Security"],
-  },
-  {
-    id: 5,
-    name: "Mobile App Development",
-    description: "Develop native mobile apps for iOS and Android platforms.",
-    tags: ["Mobile App", "Development"],
-  },
-  {
-    id: 6,
-    name: "DevOps Consulting",
-    description: "Improve your software delivery pipeline with our DevOps consulting services.",
-    tags: ["DevOps", "Consulting"],
-  },
-];
 
 const SolutionCard: React.FC<{solution: Solution}> = ({solution}) => {
   return (
@@ -76,10 +38,10 @@ const SolutionCard: React.FC<{solution: Solution}> = ({solution}) => {
 export default function Home() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
-  const [filteredSolutions, setFilteredSolutions] = useState<Solution[]>(mockSolutions);
+  const [filteredSolutions, setFilteredSolutions] = useState<Solution[]>(solutionsData);
 
   useEffect(() => {
-    let results = mockSolutions;
+    let results = solutionsData;
 
     if (searchTerm) {
       results = results.filter(
@@ -100,7 +62,7 @@ export default function Home() {
     setSelectedTag((prevTag) => (prevTag === tag ? null : tag));
   };
 
-  const allTags = [...new Set(mockSolutions.flatMap((solution) => solution.tags))];
+  const allTags = [...new Set(solutionsData.flatMap((solution) => solution.tags))];
 
   return (
     <div className="container mx-auto p-4">
