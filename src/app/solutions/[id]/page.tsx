@@ -15,20 +15,17 @@ interface Solution {
   component: string;
 }
 
-const SolutionDetailPage: React.FC = () => {
+const SolutionDetailPage = () => {
   const params = useParams();
-  const solutionId = parseInt(params.id as string);
+  const solutionId = parseInt(params.id);
 
-  const solution: Solution | undefined = solutionsData.find((s) => s.id === solutionId);
+  const solution = solutionsData.find((s) => s.id === solutionId);
 
   if (!solution) {
     return <div>Solution not found</div>;
   }
     
-    const DynamicSolutionComponent = lazy(() => {
-        const componentPath = `../../${solution.component}`;
-        return import(/* webpackChunkName: "solution-[request]" */ `${componentPath}`);
-    });
+    const DynamicSolutionComponent = lazy(() => import(`@/components/solutions/${solution.component}`));
 
 
   return (
