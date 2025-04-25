@@ -1,6 +1,6 @@
 "use client";
 
-import React, {Suspense} from "react";
+import React, {Suspense, lazy} from "react";
 import {useParams} from "next/navigation";
 import {Card, CardContent, CardHeader, CardTitle, CardDescription} from "@/components/ui/card";
 import {Badge} from "@/components/ui/badge";
@@ -24,13 +24,18 @@ const SolutionDetailPage: React.FC = () => {
   if (!solution) {
     return <div>Solution not found</div>;
   }
+    
+    const DynamicSolutionComponent = lazy(() => {
+        const componentPath = `../../${solution.component}`;
+        return import(/* webpackChunkName: "solution-[request]" */ `${componentPath}`);
+    });
 
-  const DynamicSolutionComponent = React.useMemo(() => {
-    return React.lazy(() => import(solution.component));
-  }, [solution.component]);
 
   return (
     <div className="container mx-auto p-4">
+          <Suspense fallback={<div>Loading solution...</div>}>
+
+        
       <div className="mb-4">
         <Link href="/" className="text-primary hover:underline">
           Home
@@ -49,12 +54,13 @@ const SolutionDetailPage: React.FC = () => {
             </Badge>
           ))}
         </CardContent>
-        <CardContent>
-          <Suspense fallback={<div>Loading solution...</div>}>
+            <CardContent>
             <DynamicSolutionComponent />
-          </Suspense>
+        
+              
         </CardContent>
       </Card>
+      </Suspense>
     </div>
   );
 };

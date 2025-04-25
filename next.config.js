@@ -14,6 +14,12 @@ const nextConfig = {
       },
     ],
   },
+  
+  metadata: {
+    title: 'Solution Explorer',
+    description: 'Explore available solutions in card format.',
+  },
 };
 
 module.exports = nextConfig;
+
