@@ -4,7 +4,7 @@ import React, {useState, useEffect} from "react";
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
 import {Input} from "@/components/ui/input";
 import {Badge} from "@/components/ui/badge";
-import {Magnifier} from "lucide-react";
+import {Search} from "lucide-react";
 
 interface Solution {
   id: number;
@@ -111,7 +111,7 @@ export default function Home() {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <Magnifier className="absolute left-6 text-muted-foreground" />
+        <Search className="absolute left-6 text-muted-foreground" />
       </div>
 
       <div className="mb-4 flex flex-wrap gap-2">
