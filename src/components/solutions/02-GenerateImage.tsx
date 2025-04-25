@@ -12,14 +12,13 @@ import Together from "together-ai";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
-const BasicChat = () => {
+
+const GenerateImage = () => {
   const together = new Together({
     apiKey: process.env.NEXT_PUBLIC_TOGETHER_API_KEY,
   });
 
   const [question, setQuestion] = useState("");
-  const [chatHistory, setChatHistory] = useState<string[]>([]);
-  const [selectedModel, setSelectedModel] = useState<string>("meta-llama/Llama-3.3-70B-Instruct-Turbo-Free");
   const [response, setResponse] = useState("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -31,18 +30,15 @@ const BasicChat = () => {
       setIsLoading(false);
       return;
     }
-    setChatHistory((prevHistory) => [...prevHistory, `user:${question}`]);
     try {
-      const apiresponse = await together.chat.completions.create({
-        messages: [{ role: "user", content: question }],      
-        model: selectedModel,
+      const apiresponse = await together.images.create({
+        model: "black-forest-labs/FLUX.1-schnell-Free",
+        prompt: question.trim(),
+        steps: 4,
+        n: 4
       });
-      console.log("******* apiresponse",apiresponse);
-      const response = apiresponse.choices[0].message.content;
-      setChatHistory((prevHistory) => [
-        ...prevHistory,
-        `ai:${response}`,
-      ]);
+      console.log("******* apiresponse", apiresponse);
+      const response = apiresponse.data[0].url;
       setResponse(response);
       setIsLoading(false);
     } catch (error) {
@@ -50,10 +46,6 @@ const BasicChat = () => {
       setResponse('Error fetching response.');
     }
   };
-  const models = [
-    "meta-llama/Llama-3.3-70B-Instruct-Turbo-Free",
-    "deepseek-ai/DeepSeek-R1-Distill-Llama-70B-free",
-  ];
 
   return (
     <div className="p-4">
@@ -62,28 +54,7 @@ const BasicChat = () => {
         <div className="flex justify-between space-x-4">
           <div>
             <label htmlFor="questionInput" className="block mb-2">
-              Select the model:
-            </label>
-          </div>
-        </div>
-        <div className="flex space-x-2 mb-4">
-          <Select onValueChange={setSelectedModel} defaultValue={selectedModel}>
-            <SelectTrigger>
-              <SelectValue placeholder="Select a model" />
-            </SelectTrigger>
-            <SelectContent>
-              {models.map((model) => (
-                <SelectItem key={model} value={model}>
-                  {model}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-        <div className="flex justify-between space-x-4">
-          <div>
-            <label htmlFor="questionInput" className="block mb-2">
-              Enter your question:
+              Enter the prompt:
             </label>
           </div>
         </div>
@@ -106,30 +77,18 @@ const BasicChat = () => {
         </form>
       </div>
       <div className="mb-4">
-        <label htmlFor="answer" className="block mb-2">Chat Answer:</label>
+        <label htmlFor="answer" className="block mb-2">Output Image:</label>
         {response &&
           <div
             id="answer"
             className="space-y-2 p-2 border border-gray-300 rounded-md"
           >
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>{response}</ReactMarkdown>
+            <img src={response} />
           </div>
         }
-        {/* {chatHistory.map((message, index) => {
-          const [sender, msg] = message.split(":");
-          return (
-            <div
-              key={index}
-              className={`p-2 rounded-md ${sender === "user" ? "bg-gray-100 text-right ml-auto w-fit" : "bg-gray-200 w-fit"
-                }`}
-            >
-              {msg}
-            </div>
-          );
-        })} */}
       </div>
     </div>
   );
 };
 
-export default BasicChat;
+export default GenerateImage;

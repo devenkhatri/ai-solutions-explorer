@@ -1,17 +1,17 @@
 [
   {
     "id": 1,
-    "name": "Basic Chat",
-    "description": "Example of basic chat using 'Llama 3.3 70B Instruct Turbo Free' model",
+    "name": "01 - Question/Answer",
+    "description": "Example of basic question and answer using 'Llama 3.3 70B Instruct Turbo Free' or 'DeepSeek R1 Distilled Llama 70B Free' models",
     "tags": ["Chat", "Basic"],
     "component": "01-BasicChat"
   },
   {
     "id": 2,
-    "name": "Cloud Migration Services",
-    "description": "Migrate your infrastructure to the cloud for scalability and cost savings.",
+    "name": "02 - Generate Image",
+    "description": "Example of generating image from text prompt using 'FLUX.1 [schnell] Free' model",
     "tags": ["Image", "Basic"],
-    "component": "CloudMigrationServices"
+    "component": "02-GenerateImage"
   },
   {
     "id": 3,
