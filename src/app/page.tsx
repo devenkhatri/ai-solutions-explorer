@@ -106,7 +106,7 @@ export default function Home() {
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Solution Explorer</h1>
 
-      <div className="mb-4 flex items-center space-x-2 relative">
+      <div className="mb-4 flex items-center relative">
         <Input
           type="text"
           placeholder="Search solutions..."
@@ -114,7 +114,9 @@ export default function Home() {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <Search className="absolute left-6 text-muted-foreground" />
+        <div className="absolute left-3.5 top-2.5 text-muted-foreground">
+          <Search className="h-5 w-5"/>
+        </div>
       </div>
 
       <div className="mb-4 flex flex-wrap gap-2">
