@@ -81,3 +81,4 @@ const SolutionDetailPage = () => {
 };
 
 export default SolutionDetailPage;
+
