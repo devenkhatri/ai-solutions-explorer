@@ -16,7 +16,7 @@ interface Solution {
 }
 
 const SolutionDetailPage = () => {
-  const params = useParams();
+  const params = useParams<any>();
   const solutionId = parseInt(params.id);
 
   const solution = solutionsData.find((s) => s.id === solutionId);
