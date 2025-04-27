@@ -15,10 +15,10 @@
   },
   {
     "id": 3,
-    "name": "Data Analytics Dashboard",
-    "description": "Visualize your data with an interactive dashboard for better insights.",
+    "name": "03 - Describe Image",
+    "description": "Example of image to text by converting input image to a prompt(text) using vision model",
     "tags": ["Vision", "Basic"],
-    "component": "DataAnalyticsDashboard"
+    "component": "03-DescribeImage"
   },
   {
     "id": 4,

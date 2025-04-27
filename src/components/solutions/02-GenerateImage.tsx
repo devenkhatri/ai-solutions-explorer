@@ -1,13 +1,6 @@
 import React, { useState } from "react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import Together from "together-ai";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
