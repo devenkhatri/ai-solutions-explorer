@@ -1,13 +1,6 @@
 import React, { useState } from "react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import Together from "together-ai";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -17,9 +10,7 @@ const DescribeImage = () => {
     apiKey: process.env.NEXT_PUBLIC_TOGETHER_API_KEY,
   });
 
-  const [question, setQuestion] = useState("");
-  const [chatHistory, setChatHistory] = useState<string[]>([]);
-  const [selectedModel, setSelectedModel] = useState<string>("meta-llama/Llama-3.3-70B-Instruct-Turbo-Free");
+  const [imageURL, setImageURL] = useState("");
   const [response, setResponse] = useState("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -27,22 +18,31 @@ const DescribeImage = () => {
     event.preventDefault();
     setIsLoading(true);
 
-    if (question.trim() === "") {
+    if (imageURL.trim() === "") {
       setIsLoading(false);
       return;
     }
-    setChatHistory((prevHistory) => [...prevHistory, `user:${question}`]);
     try {
       const apiresponse = await together.chat.completions.create({
-        messages: [{ role: "user", content: question }],      
-        model: selectedModel,
+        messages: [
+          { 
+            role: "user", 
+            content: [
+              {
+                type: "text",
+                text: "Describe the image whose URL is passed. The description should be very detailed, so that it can be passed as a prompt to any ai-based image generation tool, to create variations of this image",
+              },
+              {
+                type: "image_url",
+                image_url: {url: imageURL},
+              }
+            ],
+          }
+        ],      
+        model: "meta-llama/Llama-Vision-Free",
       });
       console.log("******* apiresponse",apiresponse);
       const response = apiresponse.choices[0].message.content;
-      setChatHistory((prevHistory) => [
-        ...prevHistory,
-        `ai:${response}`,
-      ]);
       setResponse(response);
       setIsLoading(false);
     } catch (error) {
@@ -50,50 +50,25 @@ const DescribeImage = () => {
       setResponse('Error fetching response.');
     }
   };
-  const models = [
-    "meta-llama/Llama-3.3-70B-Instruct-Turbo-Free",
-    "deepseek-ai/DeepSeek-R1-Distill-Llama-70B-free",
-  ];
 
   return (
     <div className="p-4">
       {/* <h3 className="text-lg font-semibold mb-4">Basic Chat</h3> */}
-      <div className="mb-4">
+      <div className="mb-4">        
         <div className="flex justify-between space-x-4">
           <div>
-            <label htmlFor="questionInput" className="block mb-2">
-              Select the model:
-            </label>
-          </div>
-        </div>
-        <div className="flex space-x-2 mb-4">
-          <Select onValueChange={setSelectedModel} defaultValue={selectedModel}>
-            <SelectTrigger>
-              <SelectValue placeholder="Select a model" />
-            </SelectTrigger>
-            <SelectContent>
-              {models.map((model) => (
-                <SelectItem key={model} value={model}>
-                  {model}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-        <div className="flex justify-between space-x-4">
-          <div>
-            <label htmlFor="questionInput" className="block mb-2">
-              Enter your question:
+            <label htmlFor="imageRefUrl" className="block mb-2">
+              Enter the URL of the reference image:
             </label>
           </div>
         </div>
         <form onSubmit={handleSubmit} className="flex space-x-2">
           <Input
-            id="questionInput"
+            id="imageRefUrl"
             type="text"
-            value={question}
-            onChange={(e) => setQuestion(e.target.value)}
-            placeholder="Ask a question"
+            value={imageURL}
+            onChange={(e) => setImageURL(e.target.value)}
+            placeholder="Reference Image URL"
             className="flex-grow border border-gray-300 rounded-md p-2"
           />
           <Button
@@ -106,7 +81,7 @@ const DescribeImage = () => {
         </form>
       </div>
       <div className="mb-4">
-        <label htmlFor="answer" className="block mb-2">Chat Answer:</label>
+        <label htmlFor="answer" className="block mb-2">AI Output:</label>
         {response &&
           <div
             id="answer"
@@ -115,18 +90,6 @@ const DescribeImage = () => {
             <ReactMarkdown remarkPlugins={[remarkGfm]}>{response}</ReactMarkdown>
           </div>
         }
-        {/* {chatHistory.map((message, index) => {
-          const [sender, msg] = message.split(":");
-          return (
-            <div
-              key={index}
-              className={`p-2 rounded-md ${sender === "user" ? "bg-gray-100 text-right ml-auto w-fit" : "bg-gray-200 w-fit"
-                }`}
-            >
-              {msg}
-            </div>
-          );
-        })} */}
       </div>
     </div>
   );
