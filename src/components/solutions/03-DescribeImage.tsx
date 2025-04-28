@@ -52,7 +52,7 @@ const DescribeImage = () => {
   };
 
   return (
-    <div className="p-4">
+    <div className="p-0">
       {/* <h3 className="text-lg font-semibold mb-4">Basic Chat</h3> */}
       <div className="mb-4">        
         <div className="flex justify-between space-x-4">
