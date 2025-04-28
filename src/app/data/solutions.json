@@ -1,22 +1,22 @@
 [
   {
     "id": 1,
-    "name": "01 - Question/Answer",
-    "description": "Example of basic question and answer using 'Llama 3.3 70B Instruct Turbo Free' or 'DeepSeek R1 Distilled Llama 70B Free' models",
+    "name": "01 - Basic Q&A Demonstration",
+    "description": "Explore the capabilities of advanced language models through a simple question-and-answer session. This demonstration utilizes the \"Llama 3.3 70B Instruct Turbo Free\" and \"DeepSeek R1 Distilled Llama 70B Free\" models to provide clear, concise, and informative responses to basic queries. Witness how these cutting-edge AI tools can process and generate human-like text, making them invaluable resources for learning, research, and everyday inquiries.",
     "tags": ["Chat", "Basic"],
     "component": "01-BasicChat"
   },
   {
     "id": 2,
-    "name": "02 - Generate Image",
-    "description": "Example of generating image from text prompt using 'FLUX.1 [schnell] Free' model",
+    "name": "02 - AI-Generated Art",
+    "description": "Discover the power of AI-generated art with the FLUX.1 [schnell] Free model. This example showcases the model's ability to transform text prompts into stunning images, pushing the boundaries of creativity and innovation. By inputting a text prompt, the FLUX.1 [schnell] Free model uses its advanced algorithms to generate a unique and captivating image, demonstrating the potential of AI in the world of art and design. Explore the possibilities of text-to-image generation and experience the future of creative expression.",
     "tags": ["Image", "Basic"],
     "component": "02-GenerateImage"
   },
   {
     "id": 3,
-    "name": "03 - Describe Image",
-    "description": "Example of image to text by converting input image to a prompt(text) using vision model",
+    "name": "03 - Image-to-Prompt Conversion",
+    "description": "Witness the power of AI-driven vision-to-text conversion with the Meta Llama-Vision-Free model. This innovative technology takes an input image and converts it into a descriptive text prompt, leveraging the capabilities of the Llama-Vision-Free vision model. By seamlessly bridging the gap between visual and textual data, this model enables a wide range of applications, from image captioning and description to content creation and analysis. Explore the limitless possibilities of image-to-text conversion and discover how the Meta Llama-Vision-Free model can transform the way you interact with visual data.",
     "tags": ["Vision", "Basic"],
     "component": "03-DescribeImage"
   },
