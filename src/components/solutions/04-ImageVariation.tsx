@@ -6,12 +6,13 @@ import Together from "together-ai";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
-const DescribeImage = () => {
+const ImageVariation = () => {
   const together = new Together({
     apiKey: process.env.NEXT_PUBLIC_TOGETHER_API_KEY,
   });
 
   const [imageURL, setImageURL] = useState("");
+  const [prompt, setPrompt] = useState("");
   const [response, setResponse] = useState("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -24,7 +25,7 @@ const DescribeImage = () => {
       return;
     }
     try {
-      const apiresponse = await together.chat.completions.create({
+      const apiresponse1 = await together.chat.completions.create({
         messages: [
           { 
             role: "user", 
@@ -42,9 +43,20 @@ const DescribeImage = () => {
         ],      
         model: "meta-llama/Llama-Vision-Free",
       });
-      console.log("******* apiresponse",apiresponse);
-      const response = apiresponse.choices[0].message.content;
+      console.log("******* apiresponse1",apiresponse1);
+      const response1 = apiresponse1.choices[0].message.content;
+      setPrompt(response1)
+      const apiresponse2 = await together.images.create({
+        model: "black-forest-labs/FLUX.1-schnell-Free",
+        prompt: response1,
+        steps: 4,
+        n: 4
+      });
+      console.log("******* apiresponse2", apiresponse2);
+      const response = apiresponse2.data[0].url;
       setResponse(response);
+
+
       setIsLoading(false);
     } catch (error) {
       console.error('Error:', error);
@@ -87,7 +99,8 @@ const DescribeImage = () => {
             id="answer"
             className="space-y-2 p-2 border border-gray-300 rounded-md"
           >
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>{response}</ReactMarkdown>
+            <img src={response} />
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>{prompt}</ReactMarkdown>
           </div>
         }
       </div>
@@ -95,4 +108,4 @@ const DescribeImage = () => {
   );
 };
 
-export default DescribeImage;
+export default ImageVariation;

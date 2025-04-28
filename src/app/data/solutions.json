@@ -22,10 +22,10 @@
   },
   {
     "id": 4,
-    "name": "Cybersecurity Solutions",
-    "description": "Protect your business from cyber threats with our advanced security solutions.",
-    "tags": ["Audio", "Basic"],
-    "component": "CybersecuritySolutions"
+    "name": "04: Transform Image into Diverse Variation",
+    "description": "Unlock the creative potential of a single image by providing its URL. Our innovative tool will generate a prompt based on the image's content, and then create multiple image variations from that prompt. Witness the evolution of your image as it transforms into diverse and unique visual representations, each with its own distinct character. Whether you're an artist, designer, or simply looking to explore new ideas, this tool is the perfect catalyst for sparking creativity and pushing the boundaries of visual expression.",
+    "tags": ["Image", "Advanced"],
+    "component": "04-ImageVariation"
   },
   {
     "id": 5,

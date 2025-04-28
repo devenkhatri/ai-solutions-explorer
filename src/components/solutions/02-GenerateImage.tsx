@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Input } from "../ui/input";
+import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
 import Together from "together-ai";
 
@@ -10,7 +10,7 @@ const GenerateImage = () => {
   });
 
   const [question, setQuestion] = useState("");
-  const [response, setResponse] = useState("");
+  const [response, setResponse] = useState(""); 
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -50,10 +50,9 @@ const GenerateImage = () => {
           </div>
         </div>
         <form onSubmit={handleSubmit} className="flex space-x-2">
-          <Input
+          <Textarea
             id="questionInput"
-            type="text"
-            value={question}
+             value={question}
             onChange={(e) => setQuestion(e.target.value)}
             placeholder="Ask a question"
             className="flex-grow border border-gray-300 rounded-md p-2"
