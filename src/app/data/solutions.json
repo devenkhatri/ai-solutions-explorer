@@ -33,7 +33,8 @@
     "description": "A workflow where the output of one LLM call becomes the input for the next. This sequential design allows for structured reasoning and step-by-step task completion. Example: Generating Marketing copy, then translating it into a different language.",
     "tags": ["Chat", "Advanced"],
     "component": "05-PromptChaining",
-    "image": "/images/prompt-chaining.webp"
+    "image": "/images/prompt-chaining.webp",
+    "usecases":[]
   },
   {
     "id": 6,

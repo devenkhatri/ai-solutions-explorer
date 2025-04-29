@@ -1,4 +1,3 @@
-import assert from "node:assert";
 import Together from "together-ai";
 
 const client = new Together({
@@ -14,6 +13,5 @@ export async function runLLM(userPrompt: string, model: string) {
   });
 
   const content = response.choices[0].message?.content;
-  assert(typeof content === "string");
   return content;
 }
