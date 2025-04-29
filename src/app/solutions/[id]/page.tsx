@@ -14,6 +14,7 @@ interface Solution {
   tags: string[];
   component: string;
   image?: string;
+  usecases?: string[];
 }
 
 const SolutionDetailPage = () => {
@@ -43,6 +44,14 @@ const SolutionDetailPage = () => {
             {solution.image && <img src={solution.image} alt="Solution Image" className="w-full h-auto rounded-md" />}
             <CardTitle className="text-2xl font-semibold">{solution.name}</CardTitle>
             <CardDescription className="text-sm text-muted-foreground">{solution.description}</CardDescription>
+            <div>Use Cases:</div>
+            {solution.usecases && solution.usecases.length > 0 && (
+              <ul className="mt-2 list-disc list-inside text-sm text-muted-foreground">
+                {solution.usecases.map((usecase, index) => (
+                  <li key={index}>{usecase}</li>
+                ))}
+              </ul>
+            )}
           </CardHeader>
           <CardContent className="flex flex-wrap gap-2">
             {solution.tags.map((tag) => (

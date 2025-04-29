@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { Textarea } from "../../ui/textarea";
 import { Button } from "../../ui/button";
-import Image from 'next/image';
-import solutionImage from './05PromptChaining.png'
 
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";

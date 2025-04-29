@@ -30,31 +30,74 @@
   {
     "id": 5,
     "name": "05: Prompt Chaining",
-    "description": "A workflow where the output of one LLM call becomes the input for the next. This sequential design allows for structured reasoning and step-by-step task completion. Example: Generating Marketing copy, then translating it into a different language.",
-    "tags": ["Chat", "Advanced"],
+    "description": "A workflow where the output of one LLM call becomes the input for the next. This sequential design allows for structured reasoning and step-by-step task completion.",
+    "tags": ["Workflow", "Advanced"],
     "component": "05-PromptChaining",
     "image": "/images/prompt-chaining.webp",
-    "usecases":[]
+    "usecases":[
+      "Generating Marketing copy, then translating it into a different language.",
+      "Writing an outline of a document, checking that the outline meets certain criteria, then writing the document based on the outline.",
+      "Using an LLM to clean and standardize raw data, then passing the cleaned data to another LLM for insights, summaries, or visualizations.",
+      "Generating a set of detailed questions based on a topic with one LLM, then passing those questions to another LLM to produce well-researched answers."
+    ]
   },
   {
     "id": 6,
-    "name": "DevOps Consulting",
-    "description": "Improve your software delivery pipeline with our DevOps consulting services.",
-    "tags": ["Code", "Basic"],
-    "component": "DevOpsConsulting"
+    "name": "06: Routing",
+    "description": "A workflow where user input is classified and directs to a specific task (can be a specific LLM, specific prompt, etc...). This allows you to optimize for many inputs in isolation.",
+    "tags": ["Workflow", "Advanced"],
+    "component": "DevOpsConsulting",
+    "image": "/images/routing.webp",
+    "usecases":[
+      "Routing easy/common questions to smaller models like Llama 3.1 8B and hard/unusual questions to more capable models like Deepseek v3 and Llama 3.3 70B to optimize cost and speed.",
+      "Directing different types of customer service queries (general questions, refund requests, technical support) into different downstream processes, prompts, and tools.",
+      "Different LLMs or model configurations excel at different tasks (e.g., writing summaries vs. generating code). Using a router, you can automatically detect the user's intent and send the input to the best-fit model.",
+      "Evaluating whether a request meets certain guidelines or triggers specific filters (e.g., checking if content is disallowed). Based on the classification, forward it to the appropriate next LLM call or step.",
+      "If one model's output doesn't meet a certain confidence threshold or fails for some reason, route automatically to a fallback model."
+    ]
   },
   {
     "id": 7,
-    "name": "IoT Solutions",
-    "description": "Connect and manage your devices with our end-to-end IoT solutions.",
-    "tags": ["Embeddings", "Basic"],
-    "component": "IoTSolutions"
+    "name": "07: Parallelization",
+    "description": "Parallelization takes advantage of tasks that can broken up into discrete independent parts. The user's prompt is passed to multiple LLMs simultaneously. Once all the LLMs respond, their answers are all sent to a final LLM call to be aggregated for the final answer.",
+    "tags": ["Workflow", "Advanced"],
+    "component": "IoTSolutions",
+    "image": "/images/parallelization.webp",
+    "usecases":[
+      "Using one LLM to answer a user's question, while at the same time using another to screen the question for inappropriate content or requests.",
+      "Reviewing a piece of code for both security vulnerabilities and stylistic improvements at the same time.",
+      "Analyzing a lengthy document by dividing it into sections and assigning each section to a separate LLM for summarization, then combining the summaries into a comprehensive overview.",
+      "Simultaneously analyzing a text for emotional tone, intent, and potential biases, with each aspect handled by a dedicated LLM.",
+      "Translating a document into multiple languages at the same time by assigning each language to a separate LLM, then aggregating the results for multilingual output."
+    ]
   },
   {
     "id": 8,
-    "name": "Software Testing Services",
-    "description": "Ensure quality and reliability with our comprehensive software testing services.",
-    "tags": ["Rerank", "Basic"],
-    "component": "SoftwareTestingServices"
+    "name": "08: Orchestrator-workers",
+    "description": "This workflow begins with an LLM breaking down the task into subtasks that are dynamically determined based on the input. These subtasks are then processed in parallel by multiple worker LLMs. Finally, the orchestrator LLM synthesizes the workers' outputs into the final result.",
+    "tags": ["Workflow", "Advanced"],
+    "component": "IoTSolutions",
+    "image": "/images/orchestrator-workers.webp",
+    "usecases":[
+      "Breaking down a coding problem into subtasks, using an LLM to generate code for each subtask, and making a final LLM call to combine the results into a complete solution.",
+      "Searching for data across multiple sources, using an LLM to identify relevant sources, and synthesizing the findings into a cohesive answer.",
+      "Creating a tutorial by splitting each section into subtasks like writing an introduction, outlining steps, and generating examples. Worker LLMs handle each part, and the orchestrator combines them into a polished final document.",
+      "Dividing a data analysis task into subtasks like cleaning the data, identifying trends, and generating visualizations. Each step is handled by separate worker LLMs, and the orchestrator integrates their findings into a complete analytical report."
+    ]
+  },
+  {
+    "id": 9,
+    "name": "09: Evaluator-optimizer",
+    "description": "The evaluator-optimizer workflow ensures task requirements are fully met through iterative refinement. An LLM performs a task, followed by a second LLM evaluating whether the result satisfies all specified criteria. If not, the process repeats with adjustments, continuing until the evaluator confirms all requirements are met.",
+    "tags": ["Workflow", "Advanced"],
+    "component": "IoTSolutions",
+    "image": "/images/evaluator-optimizer.webp",
+    "usecases":[
+      "Generating code that meets specific requirements, such as ensuring runtime complexity.",
+      "Searching for information and using an evaluator to verify that the results include all the required details.",
+      "Writing a story or article with specific tone or style requirements and using an evaluator to ensure the output matches the desired criteria, such as adhering to a particular voice or narrative structure.",
+      "Generating structured data from unstructured input and using an evaluator to verify that the data is properly formatted, complete, and consistent.",
+      "Creating user interface text, like tooltips or error messages, and using an evaluator to confirm the text is concise, clear, and contextually appropriate."
+    ]
   }
 ]
