@@ -29,10 +29,11 @@
   },
   {
     "id": 5,
-    "name": "Mobile App Development",
-    "description": "Develop native mobile apps for iOS and Android platforms.",
-    "tags": ["Language", "Basic"],
-    "component": "MobileAppDevelopment"
+    "name": "05: Prompt Chaining",
+    "description": "A workflow where the output of one LLM call becomes the input for the next. This sequential design allows for structured reasoning and step-by-step task completion. Example: Generating Marketing copy, then translating it into a different language.",
+    "tags": ["Chat", "Advanced"],
+    "component": "05-PromptChaining",
+    "image": "/images/05PromptChaining.png"
   },
   {
     "id": 6,

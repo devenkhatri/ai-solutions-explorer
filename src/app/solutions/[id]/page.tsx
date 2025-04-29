@@ -1,6 +1,7 @@
 "use client";
 
 import React, { Suspense, lazy } from "react";
+import Image from 'next/image';
 import { useParams } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -13,6 +14,7 @@ interface Solution {
   description: string;
   tags: string[];
   component: string;
+  image?: string;
 }
 
 const SolutionDetailPage = () => {
@@ -39,6 +41,7 @@ const SolutionDetailPage = () => {
         </div>
         <Card className="bg-card shadow-md rounded-lg overflow-hidden">
           <CardHeader>
+            {solution.image && <Image src={solution.image} alt="Solution Image" className="w-full h-auto rounded-md" width={500} height={300} />}
             <CardTitle className="text-2xl font-semibold">{solution.name}</CardTitle>
             <CardDescription className="text-sm text-muted-foreground">{solution.description}</CardDescription>
           </CardHeader>
