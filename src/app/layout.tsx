@@ -1,17 +1,11 @@
 import type {Metadata} from 'next';
-import {Geist, Geist_Mono} from 'next/font/google';
+// import { GeistSans } from 'geist/font/sans'; // Removed problematic import
+// import { GeistMono } from 'geist/font/mono'; // Removed problematic import
 import './globals.css';
 import Header from "@/components/Header";
+import { Toaster } from "@/components/ui/toaster"; // Import Toaster
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
-});
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
-});
+// Removed Geist font imports as they were causing issues, using default sans-serif for now.
 
 export const metadata: Metadata = {
   title: 'Solution Explorer',
@@ -25,11 +19,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      {/* Removed Geist variable classes, rely on globals.css and Tailwind defaults */}
+      <body className="font-sans antialiased">
       <Header />
         {children}
+      <Toaster /> {/* Add Toaster component here */}
       </body>
     </html>
   );
 }
-
