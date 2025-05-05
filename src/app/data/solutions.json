@@ -46,7 +46,7 @@
     "name": "06: Routing",
     "description": "A workflow where user input is classified and directs to a specific task (can be a specific LLM, specific prompt, etc...). This allows you to optimize for many inputs in isolation.",
     "tags": ["Workflow", "Advanced"],
-    "component": "DevOpsConsulting",
+    "component": "06-Routing",
     "image": "/images/routing.webp",
     "usecases":[
       "Routing easy/common questions to smaller models like Llama 3.1 8B and hard/unusual questions to more capable models like Deepseek v3 and Llama 3.3 70B to optimize cost and speed.",
