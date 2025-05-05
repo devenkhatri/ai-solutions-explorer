@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Textarea } from "../../ui/textarea";
 import { Button } from "../../ui/button";
@@ -43,7 +44,7 @@ const Routing = () => {
     reason: z.string(),
   });
   const jsonSchema = zodToJsonSchema(schema, {
-    target: "openAi",
+    target: "openai", // Changed "openAi" to "openai"
   });
 
   async function routerWorkflow(inputQuery: string, routes: { [key: string]: string }) {
