@@ -61,7 +61,7 @@
     "name": "07: Parallelization",
     "description": "Parallelization takes advantage of tasks that can broken up into discrete independent parts. The user's prompt is passed to multiple LLMs simultaneously. Once all the LLMs respond, their answers are all sent to a final LLM call to be aggregated for the final answer.",
     "tags": ["Workflow", "Advanced"],
-    "component": "IoTSolutions",
+    "component": "07-Parallelization",
     "image": "/images/parallelization.webp",
     "usecases":[
       "Using one LLM to answer a user's question, while at the same time using another to screen the question for inappropriate content or requests.",

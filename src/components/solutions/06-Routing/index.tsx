@@ -50,9 +50,7 @@ const Routing = () => {
     reason: z.string(),
   });
 
-  const jsonSchema = zodToJsonSchema(schema, {
-    target: "openai", 
-  });
+  const jsonSchema = zodToJsonSchema(schema);
 
   async function routerWorkflow(inputQuery: string, routes: typeof modelRoutes) {
     // const responseChain: any = [];
