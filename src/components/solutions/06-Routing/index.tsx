@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Textarea } from "../../ui/textarea";
 import { Button } from "../../ui/button";
 import { useToast } from "@/hooks/use-toast"; // Import useToast
+import type { ToasterToast } from "@/hooks/use-toast";
 
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -30,31 +31,37 @@ const Routing = () => {
     "Write a short story about a dragon and a knight.",
   ];
 
-  const modelRoutes: { [key: string]: string } = { // Add type annotation
+  const modelRoutes = {
     "meta-llama/Llama-3.3-70B-Instruct-Turbo-Free":
       "Best model choice for code generation tasks.",
     "meta-llama/Llama-Vision-Free":
       "Best model choice for story-telling, role-playing and fantasy tasks.",
     "deepseek-ai/DeepSeek-R1-Distill-Llama-70B-free":
       "Best model for reasoning, planning and multi-step tasks",
-  };
+  } as const; // Use 'as const' for strong typing of keys
+
+  type ModelRouteKey = keyof typeof modelRoutes;
+
+  // Ensures modelRouteEnumValues is a non-empty array of ModelRouteKey for z.enum
+  const modelRouteEnumValues = Object.keys(modelRoutes) as [ModelRouteKey, ...ModelRouteKey[]];
 
   const schema = z.object({
-    route: z.enum(Object.keys(modelRoutes) as [keyof typeof modelRoutes, ...(keyof typeof modelRoutes)[]]), // Ensure non-empty enum
+    route: z.enum(modelRouteEnumValues), // Use strongly typed keys
     reason: z.string(),
   });
+
   const jsonSchema = zodToJsonSchema(schema, {
-    target: "openai", // Changed "openAi" to "openai"
+    target: "openai", 
   });
 
-  async function routerWorkflow(inputQuery: string, routes: { [key: string]: string }) {
+  async function routerWorkflow(inputQuery: string, routes: typeof modelRoutes) {
     // const responseChain: any = [];
 
     const routerPrompt = dedent`
     Given a user prompt/query: ${inputQuery}, select the best option out of the following routes:
 
     ${Object.keys(routes)
-        .map((key) => `${key}: ${routes[key]}`)
+        .map((key) => `${key}: ${routes[key as ModelRouteKey]}`) // Cast key to ModelRouteKey
         .join("\n")}
 
     Answer only in JSON format.`;
@@ -86,7 +93,7 @@ const Routing = () => {
     // Could also have different prompts that need to be used for each route.
     const response = await client.chat.completions.create({
       messages: [{ role: "user", content: inputQuery }],
-      model: selectedRoute.route,
+      model: selectedRoute.route, // selectedRoute.route is now ModelRouteKey
     });
     const responseContent = response.choices[0].message?.content;
     console.log(`${responseContent}\n`);
@@ -108,7 +115,7 @@ const Routing = () => {
         title: "Input Required",
         description: "Please enter your tasks before submitting.",
         variant: "destructive",
-      });
+      } as ToasterToast);
       setIsLoading(false); // Ensure loading state is reset
       return;
     }
@@ -141,7 +148,7 @@ const Routing = () => {
         title: "Error",
         description: `An error occurred while processing your request: ${error instanceof Error ? error.message : String(error)}`,
         variant: "destructive",
-      });
+      } as ToasterToast);
       // Optionally clear responses or show partial results based on requirements
       setResponses([]); // Clear responses on error
       setIsLoading(false);
@@ -220,3 +227,4 @@ const Routing = () => {
 };
 
 export default Routing;
+
