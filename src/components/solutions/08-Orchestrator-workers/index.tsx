@@ -15,45 +15,6 @@ const OrchestratorWorkers = () => {
   const [responses, setResponses] = useState([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  /*
-  Run a parallel chain of LLM calls to address the `inputQuery` 
-  using a list of models specified in `proposerModels`.
-
-  Returns output from final aggregator model.
-*/
-  async function parallelWorkflow(
-    inputQuery: string,
-    proposerModels: string[],
-    aggregatorModel: string,
-    aggregatorSystemPrompt: string,
-  ) {
-    // Gather intermediate responses from proposer models
-    const proposedResponses = await Promise.all(
-      proposerModels.map((model) => runLLM(inputQuery, model)),
-    );
-
-    // Aggregate responses using an aggregator model
-    const aggregatorSystemPromptWithResponses = dedent`
-    ${aggregatorSystemPrompt}
-
-    ${proposedResponses.map((response, i) => `${i + 1}. response`)}
-  `;
-
-    const finalOutput = await runLLM(
-      inputQuery,
-      aggregatorModel,
-      aggregatorSystemPromptWithResponses,
-    );
-
-    return [finalOutput, proposedResponses];
-  }
-
-  const referenceModels = [
-    "meta-llama/Llama-3.3-70B-Instruct-Turbo-Free",
-    "meta-llama/Llama-Vision-Free",
-    // "google/gemma-2-27b-it",
-  ];
-
   function ORCHESTRATOR_PROMPT(task: string) {
     return dedent`
       Analyze this task and break it down into 2-3 distinct approaches:
