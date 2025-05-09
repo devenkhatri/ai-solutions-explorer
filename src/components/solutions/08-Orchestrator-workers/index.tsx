@@ -6,9 +6,10 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
 import dedent from "dedent";
-import { runLLM } from "./helpers";
+import { jsonLLM, runLLM } from "./helpers";
+import { z } from "zod";
 
-const PromptChaining = () => {
+const OrchestratorWorkers = () => {
 
   const [question, setQuestion] = useState("");
   const [responses, setResponses] = useState([]);
@@ -53,21 +54,94 @@ const PromptChaining = () => {
     // "google/gemma-2-27b-it",
   ];
 
-  const aggregatorModel = "deepseek-ai/DeepSeek-R1-Distill-Llama-70B-free";
-
-  const aggregatorSystemPrompt = dedent`
-    You have been provided with a set of responses from various
-    open-source models to the latest user query. Your task is to
-    synthesize these responses into a single, high-quality response.
-    It is crucial to critically evaluate the information provided in
-    these responses, recognizing that some of it may be biased or incorrect.
-    Your response should not simply replicate the given answers but
-    should offer a refined, accurate, and comprehensive reply to the
-    instruction. Ensure your response is well-structured, coherent, and
-    adheres to the highest standards of accuracy and reliability.
+  function ORCHESTRATOR_PROMPT(task: string) {
+    return dedent`
+      Analyze this task and break it down into 2-3 distinct approaches:
   
-    Responses from models:
-  `;
+      Task: ${task}
+  
+      Provide an Analysis:
+  
+      Explain your understanding of the task and which variations would be valuable.
+      Focus on how each approach serves different aspects of the task.
+  
+      Along with the analysis, provide 2-3 approaches to tackle the task, each with a brief description:
+  
+      Formal style: Write technically and precisely, focusing on detailed specifications
+      Conversational style: Write in a friendly and engaging way that connects with the reader
+      Hybrid style: Tell a story that includes technical details, combining emotional elements with specifications
+  
+      Return only JSON output.
+    `;
+  }
+
+  function WORKER_PROMPT(
+    originalTask: string,
+    taskType: string,
+    taskDescription: string,
+  ) {
+    return dedent`
+      Generate content based on:
+      Task: ${originalTask}
+      Style: ${taskType}
+      Guidelines: ${taskDescription}
+  
+      Return only your response:
+      [Your content here, maintaining the specified style and fully addressing requirements.]
+    `;
+  }
+
+  const taskListSchema = z.object({
+    analysis: z.string(),
+    tasks: z.array(
+      z.object({
+        type: z.enum(["formal", "conversational", "hybrid"]),
+        description: z.string(),
+      }),
+    ),
+  });
+
+  /*
+  Use an orchestrator model to break down a task into sub-tasks,
+  then use worker models to generate and return responses.
+*/
+  async function orchestratorWorkflow(
+    originalTask: string,
+    orchestratorPrompt: (task: string) => string,
+    workerPrompt: (
+      originalTask: string,
+      taskType: string,
+      taskDescription: string,
+    ) => string,
+  ) {
+    // Use orchestrator model to break the task up into sub-tasks
+    const { analysis, tasks } = await jsonLLM(
+      orchestratorPrompt(originalTask),
+      taskListSchema,
+    );
+
+    console.log(dedent`
+    ## Analysis:
+    ${analysis}
+
+    ## Tasks:
+  `);
+    console.log("```json", JSON.stringify(tasks, null, 2), "\n```\n");
+
+    const workerResponses = await Promise.all(
+      tasks.map(async (task) => {
+        const response = await runLLM(
+          workerPrompt(originalTask, task.type, task.description),
+          "meta-llama/Llama-3.3-70B-Instruct-Turbo",
+        );
+
+        return { task, response };
+      }),
+    );
+
+    return workerResponses;
+  }
+
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -77,26 +151,30 @@ const PromptChaining = () => {
       setIsLoading(false);
       return;
     }
-    const [answer, intermediateResponses] = await parallelWorkflow(
-      question.trim(),
-      referenceModels,
-      aggregatorModel,
-      aggregatorSystemPrompt,
-    );
+
     const responseChain: any = [];
     try {
-      for (const response of intermediateResponses) {
-        const element = {
-          title: `## Intermediate Response: ${intermediateResponses.indexOf(response) + 1}`,
-          response,
-        }
-        responseChain.push(element);
-      }
-      const element = {
-        title: `## Final Answer:`,
-        response: answer,
-      }
-      responseChain.push(element);
+      const task = `Write a product description for a new eco-friendly water bottle. 
+        The target_audience is environmentally conscious millennials and key product
+        features are: plastic-free, insulated, lifetime warranty
+      `;
+
+      const workerResponses = await orchestratorWorkflow(
+        task,
+        ORCHESTRATOR_PROMPT,
+        WORKER_PROMPT,
+      );
+
+      console.log(
+        workerResponses
+          .map((w) => `## WORKER RESULT (${w.task.type})\n${w.response}`)
+          .join("\n\n"),
+      );
+      // const element = {
+      //   title: `## Final Answer:`,
+      //   response: answer,
+      // }
+      // responseChain.push(element);
 
       setResponses(responseChain);
       setIsLoading(false);
@@ -139,7 +217,7 @@ const PromptChaining = () => {
           <div key={index} className="mb-4">
             <div className="mb-2">
               <label className="block font-semibold">
-              {item.title}
+                {item.title}
               </label>
             </div>
             <label htmlFor={`answer-${index}`} className="block mb-2 font-semibold">
@@ -154,4 +232,4 @@ const PromptChaining = () => {
   );
 };
 
-export default PromptChaining;
+export default OrchestratorWorkers;

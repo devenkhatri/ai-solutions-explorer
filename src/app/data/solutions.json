@@ -76,7 +76,7 @@
     "name": "08: Orchestrator-workers",
     "description": "This workflow begins with an LLM breaking down the task into subtasks that are dynamically determined based on the input. These subtasks are then processed in parallel by multiple worker LLMs. Finally, the orchestrator LLM synthesizes the workers' outputs into the final result.",
     "tags": ["Workflow", "Advanced"],
-    "component": "IoTSolutions",
+    "component": "08-Orchestrator-workers",
     "image": "/images/orchestrator-workers.webp",
     "usecases":[
       "Breaking down a coding problem into subtasks, using an LLM to generate code for each subtask, and making a final LLM call to combine the results into a complete solution.",
